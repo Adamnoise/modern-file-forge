@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold mb-6">File Upload System</h1>
+            
+            <form action="upload.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8">
+                    <label for="fileInput" class="cursor-pointer block text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <span class="mt-2 block text-sm font-medium text-gray-600">
+                            Click to select files or drag and drop
+                        </span>
+                    </label>
+                    <input type="file" id="fileInput" name="files[]" multiple 
+                           class="hidden" onchange="showFileNames()">
+                </div>
+
+                <div id="fileList" class="mt-4 space-y-2"></div>
+
+                <button type="submit" 
+                        class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                    Upload Files
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showFileNames() {
+            const input = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+
+            if (input.files.length > 0) {
+                for (const file of input.files) {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'p-2 bg-gray-50 rounded flex justify-between items-center';
+                    fileItem.innerHTML = `
+                        <span class="text-sm text-gray-600">${file.name}</span>
+                        <span class="text-xs text-gray-400">${(file.size / 1024).toFixed(2)} KB</span>
+                    `;
+                    fileList.appendChild(fileItem);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
